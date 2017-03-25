@@ -1,0 +1,41 @@
+package ILS
+
+public
+	with ARINC429;
+
+	system ils
+		features
+			-- a429_in_1
+			a429_in_1_ils_frequency: in data port;
+			a429_in_1_runway_heading: in data port;
+			-- a429_in_2
+			a429_in_2_ils_frequency: in data port;
+			a429_in_2_runway_heading: in data port;
+			-- a429_out_1
+			a429_out_1_ils_glide_slope_deviation: out data port;
+			a429_out_1_ils_localizer_deviation: out data port;
+			-- a429_out_2
+			a429_out_2_ils_glide_slope_deviation: out data port;
+			a429_out_2_ils_localizer_deviation: out data port;
+		properties
+			-- ils_frequency
+			ARINC429::WordID => 27 applies to a429_in_1_ils_frequency, a429_in_2_ils_frequency;
+			ARINC429::FirstBit => 15 applies to a429_in_1_ils_frequency, a429_in_2_ils_frequency;
+			ARINC429::NumberBits => 15 applies to a429_in_1_ils_frequency, a429_in_2_ils_frequency;
+			-- ils_glide_slope_deviation
+			ARINC429::WordID => 124 applies to a429_out_1_ils_glide_slope_deviation, a429_out_2_ils_glide_slope_deviation;
+			ARINC429::FirstBit => 17 applies to a429_out_1_ils_glide_slope_deviation, a429_out_2_ils_glide_slope_deviation;
+			ARINC429::NumberBits => 12 applies to a429_out_1_ils_glide_slope_deviation, a429_out_2_ils_glide_slope_deviation;
+			-- ils_localizer_deviation
+			ARINC429::WordID => 123 applies to a429_out_1_ils_localizer_deviation, a429_out_2_ils_localizer_deviation;
+			ARINC429::FirstBit => 17 applies to a429_out_1_ils_localizer_deviation, a429_out_2_ils_localizer_deviation;
+			ARINC429::NumberBits => 12 applies to a429_out_1_ils_localizer_deviation, a429_out_2_ils_localizer_deviation;		
+	end ils;
+
+	system implementation ils.impl_full
+	end ils.impl_full;
+
+	system implementation ils.impl_basic
+	end ils.impl_basic;
+
+end ILS;

@@ -1,0 +1,19 @@
+package ILS_control_panel
+
+public
+	with ARINC429;
+
+	system ILS_control_panel_basic
+		features
+			a429_out_ils_frequency: out data port;
+		properties
+			--ARINC429::WordID => 27 applies to a429_out_ils_frequency;
+			ARINC429::FirstBit => 15 applies to a429_out_ils_frequency;
+			ARINC429::NumberBits => 15 applies to a429_out_ils_frequency;
+			
+	end ILS_control_panel_basic;
+	
+	system implementation ILS_control_panel_basic.impl
+	end ILS_control_panel_basic.impl;
+
+end ILS_control_panel;

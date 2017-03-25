@@ -1,0 +1,24 @@
+package ILS_display
+
+public
+	with ARINC429;
+
+	system ILS_display_basic
+		features
+			a429_in_ils_glide_slope_deviation: in data port;
+			a429_in_ils_localizer_deviation: in data port;
+		properties
+			-- ils_glide_slope_deviation
+			ARINC429::WordID => 124 applies to a429_in_ils_glide_slope_deviation;
+			ARINC429::FirstBit => 17 applies to a429_in_ils_glide_slope_deviation;
+			ARINC429::NumberBits => 12 applies to a429_in_ils_glide_slope_deviation;
+			-- ils_localizer_deviation
+			ARINC429::WordID => 123 applies to a429_in_ils_localizer_deviation;
+			ARINC429::FirstBit => 17 applies to a429_in_ils_localizer_deviation;
+			ARINC429::NumberBits => 12 applies to a429_in_ils_localizer_deviation;					
+	end ILS_display_basic;
+	
+	system implementation ILS_display_basic.impl
+	end ILS_display_basic.impl;
+
+end ILS_display;

@@ -1,0 +1,22 @@
+package Integrated_system
+
+public
+	with ILS_control_panel;
+	with ILS;
+	with ILS_display;
+
+	system Integrated_system
+	end Integrated_system;
+	
+	-- basic implementation: ctrl_panel supplies frequency to ILS, which outputs to display
+	system implementation Integrated_system.impl_basic
+		subcomponents
+			ils: system ILS::ils.impl_basic;
+			ctrl_panel: system ILS_control_panel::ILS_control_panel_basic.impl;
+			display: system ILS_display::ILS_display_basic.impl;
+	connections
+ 			c1: port ctrl_panel.a429_out_ils_frequency -> ils.a429_in_1_ils_frequency;
+ 			c2: port ils.a429_out_1_ils_glide_slope_deviation -> display.a429_in_ils_glide_slope_deviation;
+ 			c3: port ils.a429_out_1_ils_localizer_deviation -> display.a429_in_ils_localizer_deviation;
+	end Integrated_system.impl_basic;
+end Integrated_system;
