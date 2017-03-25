@@ -1,0 +1,15 @@
+package ILS_display
+public
+	with ARINC429_mod;
+
+	system ILS_display_basic
+		features
+			A429_in: in data port;
+	end ILS_display_basic;
+	
+	system implementation ILS_display_basic.impl
+		properties
+			ARINC429_mod::MessageType => (ils_glide_slope_deviation, ils_localizer_deviation) applies to A429_in;
+	end ILS_display_basic.impl;
+
+end ILS_display;

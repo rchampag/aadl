@@ -1,0 +1,47 @@
+package ILS
+
+-- This AADL model attempts to capture all relevant ARINC 429 interface
+	-- information for an ILS (Instrument Landing System) receiver, as defined in
+	-- the ARINC 710-10 specification. The ultimate goal behind this model is to
+	-- extract the Interface Control Document (ICD) for the ILS receiver.
+	--
+	-- By Roger Champagne, P.Eng., Ph.D.
+	-- ETS, Montreal
+	-- Last update 2017-Mar-12
+
+public
+	with ARINC429_mod, ARINC429_messages;
+
+	system ils
+		features
+			a429_in_1: in data port;
+			a429_in_2: in data port;
+			a429_out_1: out data port;
+			a429_out_2: out data port;
+	end ils;
+
+	system implementation ils.impl_full
+		subcomponents
+			ils_frequency: data ARINC429_messages::ils_frequency;
+			runway_heading: data ARINC429_messages::runway_heading;
+			ils_glide_slope_deviation: data ARINC429_messages::ils_glide_slope_deviation;
+			ils_localizer_deviation: data ARINC429_messages::ils_localizer_deviation;
+		properties
+			ARINC429_mod::MessageType => (ils_frequency, runway_heading) applies to a429_in_1, a429_in_2;
+			ARINC429_mod::MessageType => (ils_frequency, runway_heading, ils_glide_slope_deviation, ils_localizer_deviation)
+					applies to a429_out_1, a429_out_2;
+	end ils.impl_full;
+
+	system implementation ils.impl_basic
+		subcomponents
+			ils_frequency: data ARINC429_messages::ils_frequency;
+			runway_heading: data ARINC429_messages::runway_heading;
+			ils_glide_slope_deviation: data ARINC429_messages::ils_glide_slope_deviation;
+			ils_localizer_deviation: data ARINC429_messages::ils_localizer_deviation;
+		properties
+			ARINC429_mod::MessageType => (ils_frequency, runway_heading) applies to a429_in_1, a429_in_2;
+			ARINC429_mod::MessageType => (ils_glide_slope_deviation, ils_localizer_deviation) applies to a429_out_1,
+					a429_out_2;
+	end ils.impl_basic;
+
+end ILS;

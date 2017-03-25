@@ -1,0 +1,19 @@
+package FMS
+public
+	with ARINC429_mod;
+
+	system FMS_basic
+		features
+			A429_in: in data port;
+			A429_out: out data port;
+	end FMS_basic;
+
+	system implementation FMS_basic.impl
+		properties
+			ARINC429_mod::MessageType => (ils_frequency, runway_heading) applies to A429_out;
+			ARINC429_mod::MessageType => (ils_frequency, runway_heading,
+						ils_glide_slope_deviation, ils_localizer_deviation
+					) applies to A429_in;
+	end FMS_basic.impl;
+
+end FMS;

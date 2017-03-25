@@ -1,0 +1,110 @@
+package ARINC429_messages
+-- This AADL package is tied to an attempt to model ARINC 429 messages in AADL.
+	--
+	-- This package specifies individual ARINC429 messages, using an extended
+	-- version of the OSATE ARINC429 property set. Each message is described in
+	-- an AADL data component, with the properties set accordingly to the semantics
+	-- of the individual message. We are not sure if this is the proper way to model
+	-- ARINC 429 messages in AADL, but our intention is to capture many ARINC 429
+	-- messages in this package, and use them in all future system models that use
+	-- ARINC 429 data buses.
+
+	-- By Roger Champagne, P.Eng., Ph.D.
+	-- ETS, Montreal
+	-- 2016-Apr-12
+
+public
+-- Modified version of OSATE ARINC429 property set.
+-- Question:
+--    What is the right way to share this property set?
+	with ARINC429_mod;
+
+	-- abstract to prevent anyone instantiating this type. Intent is to
+	-- define a template for all ARINC 429 messages exchanged in modeled
+	-- avionics subsystems.
+	abstract basic_message
+		properties
+			Data_Size => 32 bits;
+			ARINC429_mod::Encoding => BNR;
+			ARINC429_mod::DataRange => 0.0;
+			ARINC429_mod::NumberBits => 1;
+			ARINC429_mod::Label => 0;
+			ARINC429_mod::DataUnits => "";
+			ARINC429_mod::FirstBit => 11;
+			ARINC429_mod::MessageType => ();
+	end basic_message;
+
+	-- abstract implementation with default values.
+	abstract implementation basic_message.impl
+	end basic_message.impl;
+
+	-- ILS frequency is input to the Instrument Landing System (ILS) receiver.
+	-- It can come from various sources. Under certain conditions, it must also
+	-- be relayed to ILS outputs.  See ARINC 710-10.
+	data ils_frequency extends basic_message
+		properties
+			ARINC429_mod::Encoding => BCD;
+			ARINC429_mod::DataRange => 0.0;
+			ARINC429_mod::NumberBits => 15;
+			ARINC429_mod::Label => 0;
+			ARINC429_mod::DataUnits => "MHz";
+			ARINC429_mod::FirstBit => 15;
+			ARINC429_mod::MessageType => (ils_frequency);
+	end ils_frequency;
+
+	data implementation ils_frequency.impl extends basic_message.impl
+
+	end ils_frequency.impl;
+
+	-- Runway heading is input to the Instrument Landing System (ILS) receiver.
+	-- It can come from various sources. Under certain conditions, it must also
+	-- be relayed to ILS outputs.  See ARINC 710-10.
+	data runway_heading extends basic_message
+		properties
+			ARINC429_mod::Encoding => BCD;
+			ARINC429_mod::DataRange => 0.0;
+			ARINC429_mod::NumberBits => 15;
+			ARINC429_mod::Label => 0;
+			ARINC429_mod::DataUnits => "MHz";
+			ARINC429_mod::FirstBit => 15;
+			ARINC429_mod::MessageType => (runway_heading);
+	end runway_heading;
+
+	data implementation runway_heading.impl extends basic_message.impl
+	end runway_heading.impl;
+
+	-- Localizer deviation is output by the Instrument Landing System (ILS) receiver.
+	-- It can be the input to display devices in the cockpit, or other systems.
+	-- See ARINC 710-10.
+	data ils_localizer_deviation extends basic_message
+		properties
+			ARINC429_mod::Encoding => BNR;
+			ARINC429_mod::DataRange => 0.4;
+			ARINC429_mod::NumberBits => 12;
+			ARINC429_mod::Label => 173;
+			ARINC429_mod::DataUnits => "DDM";
+			ARINC429_mod::FirstBit => 17;
+			ARINC429_mod::MessageType => (ils_localizer_deviation);
+	end ils_localizer_deviation;
+
+	data implementation ils_localizer_deviation.impl extends basic_message.impl
+	end ils_localizer_deviation.impl;
+
+	-- Glide slope deviation is output by the Instrument Landing System (ILS) receiver.
+	-- It can be input to display devices in the cockpit, or other systems.
+	-- See ARINC 710-10.
+	data ils_glide_slope_deviation extends basic_message
+		properties
+			ARINC429_mod::Encoding => BNR;
+			ARINC429_mod::DataRange => 0.8;
+			ARINC429_mod::NumberBits => 12;
+			ARINC429_mod::Label => 174;
+			ARINC429_mod::DataUnits => "DDM";
+			ARINC429_mod::FirstBit => 17;
+			ARINC429_mod::MessageType => (ils_glide_slope_deviation);
+	end ils_glide_slope_deviation;
+
+	data implementation ils_glide_slope_deviation.impl extends basic_message.impl
+	end ils_glide_slope_deviation.impl;
+
+end ARINC429_messages;

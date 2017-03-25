@@ -1,0 +1,27 @@
+package resolute_theorems
+
+public
+
+annex resolute {**
+
+  	valid_arinc429_connections(cp: component) <=
+  	    ** " Check components in " cp **
+  	    forall (c : component) . contained(c, cp) => check_connections(c)
+  	
+  	check_connections(cp: component) <=
+  	    ** " Check connections outgoing from " cp **
+		forall (conn : connections (cp)) . contained(source(conn), cp) =>
+		   check_messagetypes(conn)
+                
+    -- verify that all message types associated to an out port are understood by the in port at the other end
+    -- of the connection            
+    check_messagetypes(conn: connection) <=
+        **  " Check that all message types at source of " conn " are undestood by destination of " conn ** 
+        (has_property (source(conn), ARINC429_mod::MessageType)) and
+        (has_property (destination(conn), ARINC429_mod::MessageType)) and
+        (intersect(property(source(conn), ARINC429_mod::MessageType), property(destination(conn), ARINC429_mod::MessageType)) = 
+        	property(source(conn), ARINC429_mod::MessageType))
+  	
+**};
+
+end resolute_theorems;

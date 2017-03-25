@@ -1,0 +1,15 @@
+package ILS_control_panel
+public
+	with ARINC429_mod;
+
+	system ILS_control_panel_basic
+		features
+			A429_out: out data port;
+	end ILS_control_panel_basic;
+	
+	system implementation ILS_control_panel_basic.impl
+		properties
+			ARINC429_mod::MessageType => (ils_frequency) applies to A429_out;
+	end ILS_control_panel_basic.impl;
+
+end ILS_control_panel;

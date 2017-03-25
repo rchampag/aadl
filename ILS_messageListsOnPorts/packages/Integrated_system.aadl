@@ -1,0 +1,40 @@
+package Integrated_system
+public
+	with ILS_control_panel;
+	with ILS;
+	with ILS_display;
+	with FMS;
+
+	system Integrated_system
+	end Integrated_system;
+	
+	-- basic implementation: ctrl_panel supplies frequency to ILS, which outputs to display
+	system implementation Integrated_system.impl_basic
+		subcomponents
+			ils: system ILS::ils.impl_basic;
+			ctrl_panel: system ILS_control_panel::ILS_control_panel_basic.impl;
+			display: system ILS_display::ILS_display_basic.impl;
+	connections
+ 			c1: port ctrl_panel.A429_out -> ils.a429_in_1;
+ 			c2: port ils.a429_out_1 -> display.A429_in;
+	annex resolute {** 
+	    prove valid_arinc429_connections(this)
+	**};
+			
+	end Integrated_system.impl_basic;
+
+	-- other implementation: FMS supplies frequency and runway_heading to ILS, which outputs back to FMS
+	system implementation Integrated_system.impl_fms
+		subcomponents
+			ils: system ILS::ils.impl_full;
+			fms: system FMS::FMS_basic.impl;
+	connections
+ 			c1: port fms.A429_out -> ils.a429_in_1;
+ 			c2: port ils.a429_out_1 -> fms.A429_in;
+	annex resolute {** 
+	    prove valid_arinc429_connections(this)
+	**};
+			
+	end Integrated_system.impl_fms;
+
+end Integrated_system;

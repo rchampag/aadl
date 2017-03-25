@@ -1,0 +1,22 @@
+property set ARINC429_mod is
+
+-- Modified version of the OSATE ARINC429 property set.
+-- ARINC429 message properties
+	WordID: aadlinteger applies to (data);
+	FirstBit: aadlinteger 11 .. 28 applies to (data);
+	NumberBits: aadlinteger 1 .. 18 applies to (data);
+	Encoding: enumeration (BNR, BCD) applies to (data);
+	DataRange: aadlreal applies to (data);
+	Label: aadlinteger 0 .. 255 applies to (data); 
+	DataUnits: aadlstring applies to (data);
+
+	-- enumeration of message types to bind to ports
+	MessageType: list of enumeration (
+				ils_frequency,
+				ils_glide_slope_deviation,
+				ils_localizer_deviation,
+				runway_heading
+			)
+			applies to (port,data);
+			
+end ARINC429_mod;
